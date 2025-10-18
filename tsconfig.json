@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "outDir": "./dist",
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": ["src", "prisma"]
 }

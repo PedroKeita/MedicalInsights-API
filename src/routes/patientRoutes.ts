@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import  { createPatient }  from '../controllers/patientController.js';
+import  { createPatient, listPatient, getPatientById }  from '../controllers/patientController.js';
 
 const router = Router();
 
@@ -59,5 +59,9 @@ const router = Router();
  *         description: Falta de campos obrigatórios
  */
 router.post('/patients', createPatient);
+
+router.get('/patients', listPatient);
+
+router.get('/patients/:id', getPatientById);
 
 export default router;
