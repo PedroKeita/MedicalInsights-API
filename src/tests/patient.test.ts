@@ -43,3 +43,54 @@ describe('POST /patients', () => {
     expect(response.body).toHaveProperty('message');
   });
 });
+
+describe('GET /patients', () => {
+  let patientId: number;
+
+  beforeAll(async () => {
+    // Limpa a tabela e cria um paciente para teste
+    await prisma.patient.deleteMany({});
+    const patient = await prisma.patient.create({
+      data: {
+        name: 'Maria Silva',
+        age: 30,
+        gender: 'F',
+        medicalHistory: 'Diabetes',
+      },
+    });
+    patientId = patient.id;
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
+  it('Deve listar todos os pacientes', async () => {
+    const response = await request(app).get('/api/patients');
+
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body[0]).toHaveProperty('id');
+    expect(response.body[0]).toHaveProperty('name');
+    expect(response.body[0]).toHaveProperty('age');
+    expect(response.body[0]).toHaveProperty('gender');
+  });
+
+  it('Deve buscar paciente por ID', async () => {
+    const response = await request(app).get(`/api/patients/${patientId}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id', patientId);
+    expect(response.body).toHaveProperty('name', 'Maria Silva');
+    expect(response.body).toHaveProperty('age', 30);
+    expect(response.body).toHaveProperty('gender', 'F');
+  });
+
+  it('Deve retornar 404 se paciente não existir', async () => {
+    const response = await request(app).get('/api/patients/999999');
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
+});
