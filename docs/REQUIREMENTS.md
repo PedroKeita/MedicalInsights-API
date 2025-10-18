@@ -38,7 +38,7 @@ Funcionalidades de qualidade e restrições que o sistema deve atender, como des
 | RN03 | Disponibilidade                       | A API deve estar disponível 24/7 com tolerância mínima a falhas.                           |
 | RN04 | Escalabilidade                         | A arquitetura deve suportar aumento de carga sem comprometer desempenho.                   |
 | RN05 | Padrão de API                          | Todos os endpoints devem seguir o padrão RESTful e retorno em JSON.                        |
-| RN06 | Testabilidade                          | O sistema deve permitir testes automatizados (unitários e integração) via Jest.           |
+| RN06 | Testabilidade                          | O sistema deve permitir testes automatizados (unitários e integração) via Vitest.           |
 | RN07 | Manutenção e Leitura                   | O código deve seguir boas práticas de Clean Code e convenções de estilo TypeScript.        |
 | RN08 | Tratamento de Erros                     | O sistema deve retornar mensagens de erro padronizadas em formato JSON, contendo statusCode, message e timestamp. Nenhuma exceção deve vazar para o cliente. |
 | RN09 | Integridade de Dados                    | Todas as transações com o PostgreSQL devem ser executadas dentro de transações ACID, garantindo consistência em caso de falha. |
