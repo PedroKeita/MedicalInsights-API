@@ -60,8 +60,76 @@ const router = Router();
  */
 router.post('/patients', createPatient);
 
+/**
+ * @swagger
+ * /patients:
+ *   get:
+ *     summary: Lista todos os pacientes
+ *     tags: [Patients]
+ *     responses:
+ *       200:
+ *         description: Lista de pacientes retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: Pedro Farias
+ *                   age:
+ *                     type: integer
+ *                     example: 25
+ *                   gender:
+ *                     type: string
+ *                     example: M
+ */
 router.get('/patients', listPatient);
 
+/**
+ * @swagger
+ * /patients/{id}:
+ *   get:
+ *     summary: Retorna um paciente específico pelo ID
+ *     tags: [Patients]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do paciente
+ *     responses:
+ *       200:
+ *         description: Paciente encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: Pedro Farias
+ *                 age:
+ *                   type: integer
+ *                   example: 25
+ *                 gender:
+ *                   type: string
+ *                   example: M
+ *                 medicalHistory:
+ *                   type: string
+ *                   example: Nenhum
+ *       404:
+ *         description: Paciente não encontrado
+ */
 router.get('/patients/:id', getPatientById);
 
 export default router;
