@@ -218,7 +218,7 @@ Essa épica vai garantir que a API seja fácil de usar, confiável e compatível
 
 **Critérios de Aceitação:**
 - Todos os endpoints seguem padrão uniforme de URL e verbo HTTP (GET, POST, PUT, DELETE).
-- JSON de resposta tem estrutura padronizada (ex.: `{status, data, message}`).
+- JSON de resposta tem estrutura padronizada.
 - Mensagens de erro seguem formato consistente, incluindo código e descrição.
 - Endpoints respeitam o versionamento, permitindo futuras alterações sem quebrar integração.
 
