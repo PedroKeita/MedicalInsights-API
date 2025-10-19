@@ -6,8 +6,10 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Patients
- *   description: Endpoints para gerenciamento de pacientes
+ *   - name: Patients
+ *     description: Endpoints para gerenciamento de pacientes
+ *   - name: Analysis
+ *     description: Endpoints para análises preditivas de pacientes
  */
 
 /**
@@ -17,6 +19,7 @@ const router = Router();
  *     summary: Adiciona um novo paciente
  *     tags: [Patients]
  *     requestBody:
+ *       description: Dados do paciente
  *       required: true
  *       content:
  *         application/json:
@@ -31,7 +34,7 @@ const router = Router();
  *                 type: string
  *                 example: "Edson Farias"
  *               age:
- *                 type: number
+ *                 type: integer
  *                 example: 34
  *               gender:
  *                 type: string
@@ -45,18 +48,13 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: number
- *                 name:
- *                   type: string
- *                 age:
- *                   type: number
- *                 gender:
- *                   type: string
+ *               $ref: '#/components/schemas/Patient'
  *       400:
  *         description: Falta de campos obrigatórios
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.post('/patients', createPatient);
 
@@ -74,20 +72,7 @@ router.post('/patients', createPatient);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
- *                   name:
- *                     type: string
- *                     example: Pedro Farias
- *                   age:
- *                     type: integer
- *                     example: 25
- *                   gender:
- *                     type: string
- *                     example: M
+ *                 $ref: '#/components/schemas/Patient'
  */
 router.get('/patients', listPatient);
 
@@ -110,25 +95,13 @@ router.get('/patients', listPatient);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   example: 1
- *                 name:
- *                   type: string
- *                   example: Pedro Farias
- *                 age:
- *                   type: integer
- *                   example: 25
- *                 gender:
- *                   type: string
- *                   example: M
- *                 medicalHistory:
- *                   type: string
- *                   example: Nenhum
+ *               $ref: '#/components/schemas/Patient'
  *       404:
  *         description: Paciente não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.get('/patients/:id', getPatientById);
 
@@ -136,18 +109,15 @@ router.get('/patients/:id', getPatientById);
  * @swagger
  * /patients/{id}:
  *   put:
- *     summary: Atualiza os dados de um paciente existente
- *     description: Permite atualizar as informações de um paciente pelo ID. Todos os campos obrigatórios devem estar presentes.
- *     tags:
- *       - Patients
+ *     summary: Atualiza um paciente existente
+ *     tags: [Patients]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID do paciente a ser atualizado
  *         schema:
  *           type: integer
- *           example: 1
+ *         description: ID do paciente a ser atualizado
  *     requestBody:
  *       required: true
  *       content:
@@ -173,61 +143,19 @@ router.get('/patients/:id', getPatientById);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   example: 1
- *                 name:
- *                   type: string
- *                   example: "Pedro Farias"
- *                 age:
- *                   type: integer
- *                   example: 30
- *                 gender:
- *                   type: string
- *                   example: "M"
- *                 medicalHistory:
- *                   type: string
- *                   example: "Histórico de alergias leves"
- *                 createdAt:
- *                   type: string
- *                   format: date-time
- *                   example: "2025-10-19T12:00:00Z"
- *                 updatedAt:
- *                   type: string
- *                   format: date-time
- *                   example: "2025-10-19T12:30:00Z"
+ *               $ref: '#/components/schemas/Patient'
  *       400:
  *         description: Campos obrigatórios faltando ou inválidos
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Campos obrigatórios faltando"
+ *               $ref: '#/components/schemas/ErrorMessage'
  *       404:
  *         description: Paciente não encontrado
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Paciente não encontrado"
- *       500:
- *         description: Erro interno do servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Erro ao atualizar paciente"
+ *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.put('/patients/:id', updatePatient);
 
@@ -236,9 +164,7 @@ router.put('/patients/:id', updatePatient);
  * /patients/{id}:
  *   delete:
  *     summary: Remove um paciente pelo ID
- *     description: Remove um paciente do banco de dados. Retorna HTTP 204 quando bem-sucedido e HTTP 404 se o paciente não existir.
- *     tags:
- *       - Patients
+ *     tags: [Patients]
  *     parameters:
  *       - in: path
  *         name: id
@@ -254,11 +180,7 @@ router.put('/patients/:id', updatePatient);
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Paciente não encontrado"
+ *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.delete('/patients/:id', deletePatient);
 

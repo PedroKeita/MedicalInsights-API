@@ -22,4 +22,28 @@ model Patient {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   updatedBy      String?
+  analyses       Analysis[]
+  vitals         Vitals[]
+}
+
+model Analysis {
+  id          Int       @id @default(autoincrement())
+  patient     Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId   Int
+  insights    Json      
+  riskLevel   String?   
+  createdAt   DateTime  @default(now())
+  createdBy   String    
+  alert       String?   
+}
+
+model Vitals {
+  id        Int      @id @default(autoincrement())
+  patientId Int
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  timestamp DateTime @default(now())
+  heartRate Int
+  bloodPressure String
+  temperature Float
+  oxygenSaturation Float
 }

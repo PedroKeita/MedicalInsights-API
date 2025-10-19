@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/PedroKeita/MedicalInsights-API#readme",
   "dependencies": {
+    "@google/genai": "^1.25.0",
     "@prisma/client": "^6.17.1",
     "axios": "^1.12.2",
     "dotenv": "^17.2.3",
