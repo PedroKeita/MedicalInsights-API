@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import  { createPatient, listPatient, getPatientById, updatePatient }  from '../controllers/patientController.js';
+import  { createPatient, listPatient, getPatientById, updatePatient, deletePatient }  from '../controllers/patientController.js';
 
 const router = Router();
 
@@ -139,7 +139,7 @@ router.get('/patients/:id', getPatientById);
  *     summary: Atualiza os dados de um paciente existente
  *     description: Permite atualizar as informações de um paciente pelo ID. Todos os campos obrigatórios devem estar presentes.
  *     tags:
- *       - Pacientes
+ *       - Patients
  *     parameters:
  *       - in: path
  *         name: id
@@ -230,5 +230,36 @@ router.get('/patients/:id', getPatientById);
  *                   example: "Erro ao atualizar paciente"
  */
 router.put('/patients/:id', updatePatient);
+
+/**
+ * @swagger
+ * /patients/{id}:
+ *   delete:
+ *     summary: Remove um paciente pelo ID
+ *     description: Remove um paciente do banco de dados. Retorna HTTP 204 quando bem-sucedido e HTTP 404 se o paciente não existir.
+ *     tags:
+ *       - Patients
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do paciente a ser removido
+ *     responses:
+ *       204:
+ *         description: Paciente removido com sucesso
+ *       404:
+ *         description: Paciente não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Paciente não encontrado"
+ */
+router.delete('/patients/:id', deletePatient);
 
 export default router;
