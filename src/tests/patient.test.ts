@@ -54,7 +54,7 @@ describe('GET /patients', () => {
       data: {
         name: 'Maria Silva',
         age: 30,
-        gender: 'F',
+        gender: 'Feminino',
         medicalHistory: 'Diabetes',
       },
     });
@@ -84,7 +84,7 @@ describe('GET /patients', () => {
     expect(response.body).toHaveProperty('id', patientId);
     expect(response.body).toHaveProperty('name', 'Maria Silva');
     expect(response.body).toHaveProperty('age', 30);
-    expect(response.body).toHaveProperty('gender', 'F');
+    expect(response.body).toHaveProperty('gender', 'Feminino');
   });
 
   it('Deve retornar 404 se paciente não existir', async () => {
@@ -92,5 +92,62 @@ describe('GET /patients', () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toHaveProperty('message');
+  });
+});
+
+describe('PUT /patients/:id', () => {
+  let patientId: number;
+
+  beforeAll(async () => {
+    await prisma.patient.deleteMany({});
+    const patient = await prisma.patient.create({
+      data: { name: 'Lucas', age: 28, gender: 'Feminino', medicalHistory: 'Saudável' },
+    });
+    patientId = patient.id;
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
+  it('Deve atualizar um paciente existente', async () => {
+    const response = await request(app)
+      .put(`/api/patients/${patientId}`)
+      .send({
+        name: 'Lucas Lima',
+        age: 19,
+        gender: 'Feminino',
+        medicalHistory: 'Alergia a cromossomo XX',
+        updatedBy: 'Edson',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe('Lucas Lima');
+    expect(response.body.age).toBe(19);
+    expect(response.body.updatedBy).toBe('Edson');
+  });
+
+  it('Deve retornar 404 se paciente não existir', async () => {
+    const response = await request(app)
+      .put(`/api/patients/9999`)
+      .send({
+        name: 'Inexistente',
+        age: 30,
+        gender: 'F',
+      });
+
+    expect(response.status).toBe(404);
+  });
+
+  it('Deve retornar 400 se faltar campo obrigatório', async () => {
+    const response = await request(app)
+      .put(`/api/patients/${patientId}`)
+      .send({
+        name: '',
+        age: null,
+        gender: '',
+      });
+
+    expect(response.status).toBe(400);
   });
 });
