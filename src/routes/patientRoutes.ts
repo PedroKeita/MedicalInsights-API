@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import  { createPatient, listPatient, getPatientById, updatePatient }  from '../controllers/patientController.js';
+import  { createPatient, listPatient, getPatientById, updatePatient, deletePatient }  from '../controllers/patientController.js';
 
 const router = Router();
 
@@ -230,5 +230,7 @@ router.get('/patients/:id', getPatientById);
  *                   example: "Erro ao atualizar paciente"
  */
 router.put('/patients/:id', updatePatient);
+
+router.delete('/patients/:id', deletePatient);
 
 export default router;

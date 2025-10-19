@@ -109,3 +109,26 @@ export const updatePatient = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Erro ao atualizar paciente' });
     }
 };
+
+export const deletePatient = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const existingPatient = await prisma.patient.findUnique({
+            where: { id: Number(id) },
+        });
+
+        if (!existingPatient) {
+            return res.status(404).json({ message: 'Paciente não encontrado' });
+        }
+
+        await prisma.patient.delete({
+            where: { id: Number(id) },
+        });
+
+        return res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro ao remover o paciente'});
+    }
+}
