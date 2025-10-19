@@ -151,3 +151,35 @@ describe('PUT /patients/:id', () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe('DELETE /patients/:id', () => {
+  let createdPatientId: number;
+
+  beforeAll(async () => {
+    const patient = await prisma.patient.create({
+      data: {
+        name: 'João Silva',
+        age: 40,
+        gender: 'M',
+        medicalHistory: 'Hipertensão',
+      },
+    });
+    createdPatientId = patient.id;
+  });
+
+  it('Deve remover um paciente existente e retornar 204', async () => {
+    const response = await request(app).delete(`/api/patients/${createdPatientId}`);
+    expect(response.status).toBe(204);
+
+    const deletedPatient = await prisma.patient.findUnique({
+      where: { id: createdPatientId },
+    });
+    expect(deletedPatient).toBeNull();
+  });
+
+  it('Deve retornar 404 se o paciente não existir', async () => {
+    const response = await request(app).delete('/api/patients/9999');
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty('message');
+  });
+});

@@ -126,7 +126,7 @@ export const deletePatient = async (req: Request, res: Response) => {
             where: { id: Number(id) },
         });
 
-        return res.status(204).send();
+        return res.status(204).send('Paciente deletado');
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Erro ao remover o paciente'});
