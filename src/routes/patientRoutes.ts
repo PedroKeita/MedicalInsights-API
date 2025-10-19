@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import  { createPatient, listPatient, getPatientById }  from '../controllers/patientController.js';
+import  { createPatient, listPatient, getPatientById, updatePatient }  from '../controllers/patientController.js';
 
 const router = Router();
 
@@ -131,5 +131,104 @@ router.get('/patients', listPatient);
  *         description: Paciente não encontrado
  */
 router.get('/patients/:id', getPatientById);
+
+/**
+ * @swagger
+ * /patients/{id}:
+ *   put:
+ *     summary: Atualiza os dados de um paciente existente
+ *     description: Permite atualizar as informações de um paciente pelo ID. Todos os campos obrigatórios devem estar presentes.
+ *     tags:
+ *       - Pacientes
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do paciente a ser atualizado
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Pedro Farias"
+ *               age:
+ *                 type: integer
+ *                 example: 30
+ *               gender:
+ *                 type: string
+ *                 example: "M"
+ *               medicalHistory:
+ *                 type: string
+ *                 example: "Histórico de alergias leves"
+ *     responses:
+ *       200:
+ *         description: Paciente atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: "Pedro Farias"
+ *                 age:
+ *                   type: integer
+ *                   example: 30
+ *                 gender:
+ *                   type: string
+ *                   example: "M"
+ *                 medicalHistory:
+ *                   type: string
+ *                   example: "Histórico de alergias leves"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-10-19T12:00:00Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-10-19T12:30:00Z"
+ *       400:
+ *         description: Campos obrigatórios faltando ou inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Campos obrigatórios faltando"
+ *       404:
+ *         description: Paciente não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Paciente não encontrado"
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Erro ao atualizar paciente"
+ */
+router.put('/patients/:id', updatePatient);
 
 export default router;
