@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import  { createPatient, listPatient, getPatientById }  from '../controllers/patientController.js';
+import  { createPatient, listPatient, getPatientById, updatePatient }  from '../controllers/patientController.js';
 
 const router = Router();
 
@@ -131,5 +131,7 @@ router.get('/patients', listPatient);
  *         description: Paciente não encontrado
  */
 router.get('/patients/:id', getPatientById);
+
+router.put('/patients/:id', updatePatient);
 
 export default router;
