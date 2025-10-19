@@ -28,7 +28,7 @@ model Patient {
 
 model Analysis {
   id          Int       @id @default(autoincrement())
-  patient     Patient   @relation(fields: [patientId], references: [id])
+  patient     Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId   Int
   insights    Json      
   riskLevel   String?   
@@ -40,7 +40,7 @@ model Analysis {
 model Vitals {
   id        Int      @id @default(autoincrement())
   patientId Int
-  patient   Patient  @relation(fields: [patientId], references: [id])
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   timestamp DateTime @default(now())
   heartRate Int
   bloodPressure String

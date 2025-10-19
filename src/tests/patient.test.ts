@@ -6,6 +6,8 @@ import prisma from '../../prisma/client.js';
 describe('POST /patients', () => {
   beforeAll(async () => {
     // Limpa a tabela antes dos testes
+    await prisma.analysis.deleteMany({});
+    await prisma.vitals.deleteMany({});
     await prisma.patient.deleteMany({});
   });
 
@@ -49,6 +51,8 @@ describe('GET /patients', () => {
 
   beforeAll(async () => {
     // Limpa a tabela e cria um paciente para teste
+    await prisma.analysis.deleteMany({});
+    await prisma.vitals.deleteMany({});
     await prisma.patient.deleteMany({});
     const patient = await prisma.patient.create({
       data: {
@@ -99,6 +103,8 @@ describe('PUT /patients/:id', () => {
   let patientId: number;
 
   beforeAll(async () => {
+    await prisma.analysis.deleteMany({});
+    await prisma.vitals.deleteMany({});
     await prisma.patient.deleteMany({});
     const patient = await prisma.patient.create({
       data: { name: 'Lucas', age: 28, gender: 'Feminino', medicalHistory: 'Saudável' },
@@ -156,6 +162,9 @@ describe('DELETE /patients/:id', () => {
   let createdPatientId: number;
 
   beforeAll(async () => {
+    await prisma.analysis.deleteMany({});
+    await prisma.vitals.deleteMany({});
+    await prisma.patient.deleteMany({});
     const patient = await prisma.patient.create({
       data: {
         name: 'João Silva',
