@@ -99,7 +99,7 @@ export const updatePatient = async (req: Request, res: Response) => {
                 gender,
                 medicalHistory,
                 updatedAt: new Date(),
-                updatedBy: updatedBy,
+                updatedBy: updatedBy || 'System',
             },
         });
 
