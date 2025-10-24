@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createAnalysis } from '../controllers/analysisController.js';
+import { createAnalysis, getPatientAnalyses } from '../controllers/analysisController.js';
 
 const router = Router();
 
@@ -80,6 +80,50 @@ const router = Router();
  *               $ref: '#/components/schemas/ErrorMessage'
  */
 router.post('/analysis', createAnalysis);
+
+/**
+ * @swagger
+ * /patients/{id}/analyses:
+ *   get:
+ *     tags:
+ *       - Analysis
+ *     summary: Retorna o histórico de análises de um paciente
+ *     description: Retorna todas as análises realizadas para o paciente especificado, ordenadas por data de criação (mais recentes primeiro).
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do paciente
+ *     responses:
+ *       200:
+ *         description: Lista de análises retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   insights:
+ *                     type: object
+ *                   riskLevel:
+ *                     type: string
+ *                   alert:
+ *                     type: string
+ *                     nullable: true
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                   createdBy:
+ *                     type: string
+ *       404:
+ *         description: Paciente não encontrado
+ */
+router.get('/patients/:id/analyses', getPatientAnalyses);
 
 export default router;
 
