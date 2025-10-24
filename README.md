@@ -1,87 +1,83 @@
-MedicalInsights-API
+# MedicalInsights-API
 
 API RESTful para gerenciamento e análise de dados médicos, desenvolvida com Node.js, Express e TypeScript. A API permite o cadastro, visualização e análise de informações de pacientes, facilitando o acompanhamento da saúde e a geração de insights clínicos.
 
-🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 
-Node.js: Ambiente de execução JavaScript no servidor.
+- **Node.js**: Ambiente de execução JavaScript no servidor.
+- **Express**: Framework web para Node.js.
+- **TypeScript**: Superset do JavaScript que adiciona tipagem estática.
+- **Prisma**: ORM para interagir com o banco de dados.
+- **Swagger**: Documentação interativa da API.
+- **Vitest**: Frameworks para testes automatizados.
 
-Express: Framework web para Node.js.
+## 📦 Instalação
 
-TypeScript: Superset do JavaScript que adiciona tipagem estática.
+1. Clone o repositório:
 
-Prisma: ORM para interagir com o banco de dados.
+   ```bash
+   git clone https://github.com/PedroKeita/MedicalInsights-API.git
+   cd MedicalInsights-API
+   ```
 
-Swagger: Documentação interativa da API.
+2. Instale as dependências:
+    ```
+    npm install
+    ```
 
-Jest/Vitest: Frameworks para testes automatizados.
+3. Configure o banco de dados:
+    - Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias.
 
-📦 Instalação
+    - Execute as migrações do Prisma:
+    ```
+    npx prisma migrate dev
+    ```
 
-Clone o repositório:
+4. Inicie o servidor:
+    ```
+    npm run dev
+    ```
+    O servidor estará rodando em `http://localhost:3000`.
 
-git clone https://github.com/PedroKeita/MedicalInsights-API.git
-cd MedicalInsights-API
+## 📚 Endpoints Principais
 
+**Pacientes**
 
-Instale as dependências:
+- `GET /patients`: Lista todos os pacientes.
 
-npm install
+- `GET /patients/:id`: Retorna detalhes de um paciente específico.
 
+- `POST /patients`: Cria um novo paciente.
 
-Configure o banco de dados:
+- `PUT /patients/:id`: Atualiza informações de um paciente.
 
-Crie um arquivo .env na raiz do projeto com as variáveis de ambiente necessárias.
+-` DELETE /patients/:id`: Remove um paciente.
 
-Execute as migrações do Prisma:
+**Análises**
 
-npx prisma migrate dev
+- `GET /patients/:id/analyses`: Retorna o histórico de análises de um paciente.
 
+- `POST /analysis`: Cria uma nova análise para um paciente.
 
-Inicie o servidor:
+**Autenticação (Futuro)**
 
-npm run dev
+- Implementação planejada para autenticação e autorização de usuários.
 
-
-O servidor estará rodando em http://localhost:3000.
-
-📚 Endpoints Principais
-Pacientes
-
-GET /patients: Lista todos os pacientes.
-
-GET /patients/:id: Retorna detalhes de um paciente específico.
-
-POST /patients: Cria um novo paciente.
-
-PUT /patients/:id: Atualiza informações de um paciente.
-
-DELETE /patients/:id: Remove um paciente.
-
-Análises
-
-GET /patients/:id/analyses: Retorna o histórico de análises de um paciente.
-
-POST /patients/:id/analyses: Cria uma nova análise para um paciente.
-
-Autenticação (Futuro)
-
-Implementação planejada para autenticação e autorização de usuários.
-
-🧪 Testes
-
+## 🧪 Testes
 Para rodar os testes automatizados:
-
+```
 npm run test
+```
 
-📄 Documentação da API
-
+## 📄 Documentação da API
 A documentação interativa da API está disponível em:
+```
+http://localhost:3000/api/docs
+```
 
-http://localhost:3000/api-docs
+## 📌 Épicas/User Stories e Requisitos
 
-📌 Notas
+O projeto possui documentação detalhada de user stories e requisitos disponíveis em:
 
-A autenticação e autorização de usuários estão planejadas para versões futuras.
-
-A estrutura do banco de dados pode ser visualizada no arquivo prisma/schema.prisma.
+- 📄 **[User Stories e Épicas](./docs/user-stories.md)** – Lista completa das funcionalidades planejadas, com detalhes de cada épica e user stories.
+- 📝 **[Requisitos do Projeto](./docs/requirements.md)** – Documentação de requisitos funcionais e não funcionais do sistema.
