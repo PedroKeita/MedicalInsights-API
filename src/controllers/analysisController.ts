@@ -24,19 +24,19 @@ export const createAnalysis = async (req: Request, res: Response) => {
         }
 
         const prompt = `
-Dados do paciente:
-Idade: ${age}
-Gênero: ${gender}
-Histórico Médico: ${medicalHistory}
-Sinais Vitais: ${JSON.stringify(vitals)}
+        Dados do paciente:
+        Idade: ${age}
+        Gênero: ${gender}
+        Histórico Médico: ${medicalHistory}
+        Sinais Vitais: ${JSON.stringify(vitals)}
 
-Forneça uma análise preditiva em JSON, com os seguintes campos:
-- notes: resumo textual da análise
-- metrics: objeto com métricas relevantes (heartRate, bloodPressure, temperature, etc.)
-- recommendations: array de recomendações médicas
-- riskLevel: nível de risco (Baixo, Médio, Alto)
-- alert: string ou null
-`;
+        Forneça uma análise preditiva em JSON, com os seguintes campos:
+                - notes: resumo textual da análise
+                - metrics: objeto com métricas relevantes (heartRate, bloodPressure, temperature, etc.)
+                - recommendations: array de recomendações médicas
+                - riskLevel: nível de risco (Baixo, Médio, Alto)
+                - alert: string ou null
+                `;
 
        
         const aiResponse = await client.models.generateContent({
@@ -80,5 +80,37 @@ Forneça uma análise preditiva em JSON, com os seguintes campos:
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Erro ao criar análise', error });
+    }
+};
+
+export const getPatientAnalyses = async (req: Request, res: Response) => {
+    const patientId = Number(req.params.id);
+
+    try {
+        const patient = await prisma.patient.findUnique({
+            where: { id: patientId},
+        });
+
+        if (!patient) {
+            return res.status(404).json({ message: 'Paciente não encontrado'});
+        }
+
+        const analyses = await prisma.analysis.findMany({
+            where: { patientId },
+            orderBy: { createdAt: 'desc' },
+            select: {
+                id: true,
+                insights: true,
+                riskLevel: true,
+                alert: true,
+                createdAt: true,
+                createdBy: true,
+            }
+        });
+
+        return res.status(200).json(analyses);
+    } catch (error) {
+        console.error('Erro ao buscar análises:', error);
+        return res.status(500).json({ message: 'Erro ao buscar análises', error});
     }
 };
