@@ -79,5 +79,5 @@ http://localhost:3000/api/docs
 
 O projeto possui documentação detalhada de user stories e requisitos disponíveis em:
 
-- 📄 **[User Stories e Épicas](./docs/user-stories.md)** – Lista completa das funcionalidades planejadas, com detalhes de cada épica e user stories.
-- 📝 **[Requisitos do Projeto](./docs/requirements.md)** – Documentação de requisitos funcionais e não funcionais do sistema.
+- 📄 **[User Stories e Épicas](./docs/Epics_UserStories.md)** – Lista completa das funcionalidades planejadas, com detalhes de cada épica e user stories.
+- 📝 **[Requisitos do Projeto](./docs/REQUIREMENTS.md)** – Documentação de requisitos funcionais e não funcionais do sistema.
